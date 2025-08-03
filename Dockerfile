@@ -12,8 +12,8 @@ COPY client/package*.json ./client/
 COPY server/package*.json ./server/
 
 # Install dependencies
-RUN npm ci --prefix ./client && \
-    npm ci --prefix ./server
+RUN npm install --prefix ./client && \
+    npm install --prefix ./server
 
 # Copy source code
 COPY client/ ./client/
