@@ -12,8 +12,8 @@ COPY client/package*.json ./client/
 COPY server/package*.json ./server/
 
 # Install dependencies
-RUN npm ci --only=production --prefix ./client && \
-    npm ci --only=production --prefix ./server
+RUN npm ci --prefix ./client && \
+    npm ci --prefix ./server
 
 # Copy source code
 COPY client/ ./client/
@@ -41,6 +41,9 @@ COPY --from=base /app/client/dist /usr/share/nginx/html
 # Copy backend files
 COPY --from=base /app/server /app/server
 COPY --from=base /app/server/node_modules /app/server/node_modules
+
+# Clean up dev dependencies in production
+RUN cd /app/server && npm prune --production
 
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
